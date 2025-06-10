@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defineEmits, reactive, ref } from "vue"
+import { defineEmits, reactive, ref, watch } from "vue"
+import { useRoute } from "vue-router"
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { supabase } from "../supabase"
 import { userState } from "../store"
@@ -23,6 +24,7 @@ const emit = defineEmits(["submitted"])
 const toast = useToast()
 const loading = ref(false)
 const open = ref(false)
+const route = useRoute()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     try {
@@ -50,11 +52,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         loading.value = false;
     }
 }
+
+const objetivos = {
+    ganar: "Ganar Musculo",
+    perder: "Perder Peso",
+    mantener: "Mantener Forma"
+}
+
+watch(() => route.query, () => {
+    if (route.query.objetivo) {
+        form.training_type = objetivos[route.query.objetivo]
+    }
+})
 </script>
 
 <template>
     <UModal v-model:open="open" title="Agregar Progreso" close-icon="lucide:x">
-        <UButton color="neutral" label="Agregar Progreso" />
+        <UButton :color="$attrs.color ?? 'neutral'" label="Agregar Progreso" />
 
         <template #body>
             <UForm @submit="onSubmit" :state="form" :schema="schema" class="space-y-6">

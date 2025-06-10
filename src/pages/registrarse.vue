@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue"
+import { reactive, ref, onMounted } from "vue"
 import { useRouter } from "vue-router"
 import type { FormSubmitEvent } from '@nuxt/ui'
 import authService from "../services/auth.service.ts"
+import { userState } from "../store"
 import * as z from 'zod'
 
 const schema = z.object({
@@ -55,6 +56,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         loading.value = false;
     }
 }
+
+onMounted(() => {
+    if (userState.id) {
+        router.push("/profile")
+    }
+})
 </script>
 
 <template>

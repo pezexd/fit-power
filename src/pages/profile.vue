@@ -37,7 +37,16 @@ onMounted(() => {
 
 <template>
     <UContainer class="py-12">
-        <h1 class="text-center text-3xl font-bold">Perfil</h1>
+        <div class="flex items-center justify-between">
+            <div class="min-w-0 flex-1">
+                <h2 class="text-lg font-bold text-highlighted">
+                    Perfil
+                </h2>
+            </div>
+            <div class="flex gap-3">
+                <UButton to="/rutina" variant="subtle" label="Iniciar rutina" />
+            </div>
+        </div>
         <UCard variant="subtle" class="mt-8">
             <h2 class="text-base font-semibold text-highlighted">Informacion Personal</h2>
             <div class="mt-4 sm:mt-6">
@@ -69,10 +78,7 @@ onMounted(() => {
 
         <UCard v-if="progress.length" variant="subtle" class="mt-8">
             <template #header>
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-semibold text-highlighted">Progresos</h2>
-                    <AgregarProgreso @submitted="getProgress" />
-                </div>
+                <h2 class="text-base font-semibold text-highlighted">Progresos</h2>
             </template>
             <UTable :data="progress" :columns="columns" class="flex-1 -m-4 sm:-m-6" />
         </UCard>
